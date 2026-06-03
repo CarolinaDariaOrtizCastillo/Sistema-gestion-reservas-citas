@@ -1,0 +1,150 @@
+<div class="modulo-citas">
+
+    <div class="contenedor-formulario">
+        <div class="tarjeta">
+            <div class="tarjeta-encabezado encabezado-oscuro">
+                <h4>{{ isEditing ? 'Editar Reserva' : 'Nueva Reserva / Cita' }}</h4>
+            </div>
+            <div class="tarjeta-cuerpo">
+                <form [formGroup]="citaForm" (ngSubmit)="onSubmit()">
+
+                    <div class="grupo-campo">
+                        <label class="etiqueta">Nombre del Cliente</label>
+                        <input type="text" class="campo-texto" formControlName="nombre"
+                            [ngClass]="{'campo-invalido': citaForm.get('nombre')?.touched && citaForm.get('nombre')?.invalid}">
+                        <div class="mensaje-error"
+                            *ngIf="citaForm.get('nombre')?.touched && citaForm.get('nombre')?.invalid">
+                            <span *ngIf="citaForm.get('nombre')?.errors?.['required']">El nombre es obligatorio.</span>
+                            <span *ngIf="citaForm.get('nombre')?.errors?.['minlength']">Mínimo 3 caracteres.</span>
+                        </div>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label class="etiqueta">DNI</label>
+                        <input type="text" class="campo-texto" formControlName="DNI" maxlength="8"
+                            [ngClass]="{'campo-invalido': citaForm.get('DNI')?.touched && citaForm.get('DNI')?.invalid}">
+                        <div class="mensaje-error" *ngIf="citaForm.get('DNI')?.touched && citaForm.get('DNI')?.invalid">
+                            <span *ngIf="citaForm.get('DNI')?.errors?.['required']">El DNI es obligatorio.</span>
+                            <span *ngIf="citaForm.get('DNI')?.errors?.['pattern']">El DNI debe tener exactamente 8
+                                dígitos numéricos.</span>
+                        </div>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label class="etiqueta">Celular</label>
+                        <input type="text" class="campo-texto" formControlName="celular" maxlength="9"
+                            [ngClass]="{'campo-invalido': citaForm.get('celular')?.touched && citaForm.get('celular')?.invalid}">
+                        <div class="mensaje-error"
+                            *ngIf="citaForm.get('celular')?.touched && citaForm.get('celular')?.invalid">
+                            <span *ngIf="citaForm.get('celular')?.errors?.['required']">El celular es
+                                obligatorio.</span>
+                            <span
+                                *ngIf="citaForm.get('celular')?.hasError('pattern') && citaForm.get('celular')?.value?.length !== 9">
+                                Número inválido, inserte solo nueve dígitos.
+                            </span>
+                            <span
+                                *ngIf="citaForm.get('celular')?.hasError('pattern') && citaForm.get('celular')?.value?.length === 9 && !citaForm.get('celular')?.value?.startsWith('9')">
+                                Número no válido en Perú.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label class="etiqueta">Fecha de la Cita</label>
+                        <input type="date" class="campo-texto" formControlName="fecha"
+                            [ngClass]="{'campo-invalido': citaForm.get('fecha')?.touched && citaForm.get('fecha')?.invalid}">
+                        <div class="mensaje-error"
+                            *ngIf="citaForm.get('fecha')?.touched && citaForm.get('fecha')?.invalid">
+                            <span *ngIf="citaForm.get('fecha')?.errors?.['required']">La fecha es obligatoria.</span>
+                            <span *ngIf="citaForm.get('fecha')?.errors?.['fechaPasada']">¡La fecha no puede ser anterior
+                                a la actual!</span>
+                        </div>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label class="etiqueta">Hora</label>
+                        <input type="time" class="campo-texto" formControlName="hora"
+                            [ngClass]="{'campo-invalido': citaForm.get('hora')?.touched && citaForm.get('hora')?.invalid}">
+                        <div class="mensaje-error"
+                            *ngIf="citaForm.get('hora')?.touched && citaForm.get('hora')?.invalid">
+                            La hora es obligatoria.
+                        </div>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label class="etiqueta">Servicio</label>
+                        <select class="campo-seleccion" formControlName="servicio"
+                            [ngClass]="{'campo-invalido': citaForm.get('servicio')?.touched && citaForm.get('servicio')?.invalid}">
+                            <option value="">Seleccione un servicio...</option>
+                            <option value="Consultoría Médica">Consultoría Médica</option>
+                            <option value="Asesoría Legal">Asesoría Legal</option>
+                            <option value="Corte de Cabello">Corte de Cabello</option>
+                            <option value="Mantenimiento Vehicular">Mantenimiento Vehicular</option>
+                        </select>
+                        <div class="mensaje-error"
+                            *ngIf="citaForm.get('servicio')?.touched && citaForm.get('servicio')?.invalid">
+                            Debe seleccionar un servicio.
+                        </div>
+                    </div>
+
+                    <div class="contenedor-botones">
+                        <button type="submit" class="boton boton-principal" [disabled]="citaForm.invalid">
+                            {{ isEditing ? 'Actualizar Cita' : 'Registrar Cita' }}
+                        </button>
+                        <button type="button" class="boton boton-secundario" *ngIf="isEditing"
+                            (click)="cancelarEdicion()">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-tabla">
+        <div class="tarjeta shadow-suave">
+            <div class="tarjeta-encabezado encabezado-turquesa">
+                <h4>Listado de Citas / Reservas Activas</h4>
+            </div>
+            <div class="tarjeta-cuerpo">
+                <div class="tabla-responsiva" *ngIf="listaCitas.length > 0; else noData">
+                    <table class="tabla-personalizada">
+                        <thead>
+                            <tr>
+                                <th>Cliente / Documento</th>
+                                <th>Contacto</th>
+                                <th>Fecha / Hora</th>
+                                <th>Servicio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cita of listaCitas">
+                                <td>
+                                    <span class="texto-bold">{{ cita.nombre }}</span><br>
+                                    <span class="texto-sub">DNI: {{ cita.DNI }}</span>
+                                </td>
+                                <td>{{ cita.celular }}</td>
+                                <td>
+                                    {{ cita.fecha | date:'dd/MM/yyyy' }}<br>
+                                    <span class="texto-sub">{{ cita.hora }}</span>
+                                </td>
+                                <td><span class="etiqueta-servicio">{{ cita.servicio }}</span></td>
+                                <td>
+                                    <button class="btn-accion btn-editar" (click)="onEdit(cita)">Editar</button>
+                                    <button class="btn-accion btn-eliminar"
+                                        (click)="onDelete(cita.id)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #noData>
+                    <p class="tabla-vacia">No hay citas registradas en el sistema.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,218 @@
+/* Contenedor principal en 2 columnas con Flexbox nativo */
+.modulo-citas {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Distribución de anchos */
+.contenedor-formulario {
+  flex: 4; /* Ocupa el 40% del ancho */
+  min-width: 320px;
+}
+
+.contenedor-tabla {
+  flex: 6; /* Ocupa el 60% del ancho */
+  min-width: 450px;
+}
+
+/* Estilos de la Tarjeta */
+.tarjeta {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(48, 56, 65, 0.08);
+  overflow: hidden;
+}
+
+.tarjeta-cuerpo {
+  padding: 20px;
+}
+
+/* Encabezados con tus colores */
+.tarjeta-encabezado {
+  padding: 15px 20px;
+  color: #F5F5F5;
+}
+
+.tarjeta-encabezado h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.encabezado-oscuro {
+  background-color: #303841; /* Gris Oscuro */
+  border-bottom: 3px solid #76ABAE;
+}
+
+.encabezado-turquesa {
+  background-color: #76ABAE; /* Turquesa */
+  border-bottom: 3px solid #303841;
+}
+
+/* Estilos de los Formularios */
+.grupo-campo {
+  margin-bottom: 16px;
+}
+
+.etiqueta {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #303841;
+  font-size: 14px;
+}
+
+.campo-texto, .campo-seleccion {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #cccccc;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #303841;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.campo-texto:focus, .campo-seleccion:focus {
+  outline: none;
+  border-color: #76ABAE; /* Focus Turquesa */
+  box-shadow: 0 0 0 3px rgba(118, 171, 174, 0.2);
+}
+
+/* Validaciones y Errores (Naranja) */
+.campo-invalido {
+  border-color: #FF5722 !important;
+}
+
+.mensaje-error {
+  color: #FF5722;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Botones */
+.contenedor-botones {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.boton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.boton-principal {
+  background-color: #FF5722; /* Naranja para Registrar */
+  color: white;
+}
+
+.boton-principal:hover:not(:disabled) {
+  background-color: #e04e1d;
+}
+
+.boton-principal:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.boton-secundario {
+  background-color: #303841;
+  color: white;
+}
+
+/* Tabla Personalizada NAtiva */
+.tabla-responsiva {
+  overflow-x: auto;
+}
+
+.tabla-personalizada {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.tabla-personalizada th {
+  background-color: #F5F5F5; /* Gris claro en cabecera */
+  color: #303841;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tabla-personalizada td {
+  padding: 12px;
+  border-bottom: 1px solid #eeeeee;
+  color: #303841;
+}
+
+.texto-bold { font-weight: 600; }
+.texto-sub { color: #777777; font-size: 12px; }
+
+/* Badge de Servicio */
+.etiqueta-servicio {
+  background-color: rgba(118, 171, 174, 0.15);
+  color: #254e51;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #76ABAE;
+}
+
+/* Botones de acción dentro de la tabla */
+.btn-accion {
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 4px;
+  background: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-editar {
+  color: #76ABAE;
+  border-color: #76ABAE;
+}
+.btn-editar:hover {
+  background-color: #76ABAE;
+  color: white;
+}
+
+.btn-eliminar {
+  color: #FF5722;
+  border-color: #FF5722;
+}
+.btn-eliminar:hover {
+  background-color: #FF5722;
+  color: white;
+}
+
+.tabla-vacia {
+  text-center: center;
+  color: #777777;
+  padding: 20px 0;
+  margin: 0;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 850px) {
+  .modulo-citas {
+    flex-direction: column;
+  }
+}
